@@ -20,7 +20,7 @@ document.addEventListener('keydown', function (e) {
           <input type="text" name="" id="input${id}" placeholder="enter" value="${v}">
           <label>karan ${id}</label>
       </li>`;
-    //  lists.push([v,id])
+     lists.push([v,id])
         var container = document.getElementById('container');
         container.insertAdjacentHTML('beforeend', html);
         document.getElementById('input').value='';
@@ -42,7 +42,8 @@ function select() {
             if (document.getElementById(`li${i}`)) {
                 if (document.getElementById(`check${i}`).checked) {
                     document.getElementById(`li${i}`).remove();
-
+                    console.log(lists.splice(i,1))
+                    // console.log(lists)
                 }
             }
         }
@@ -58,7 +59,7 @@ function select() {
         if (!b) {
             id = 0;
         }
-
+        document.getElementById("action").value='';
     }
     if(x=='UnselectAll'){
         for (let i = 1; i <= id; i++) {
@@ -297,5 +298,65 @@ if(y=='ZtoA'){
     }
     y='';
     document.getElementById("sort").value='';
+}
+
+if(y=='Oldest'){
+    // let arr1 = [];
+    // let check1 = [];
+    // for (let i = 1; i <= id; i++) {
+    //     if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
+    //         if (document.getElementById(`check${i}`).checked) {
+    //             check1.push(1,i)
+    //         }
+    //         else {
+    //             check1.push(0,i)
+    //         }
+
+    //     }
+    // }
+    // arr1.sort();
+    // arr1.reverse();
+    // console.log(arr1)
+    // console.log(check1)
+    // // for (let i = 1; i <= id; i++) {
+    // //     if (document.getElementById(`li${i}`)) {
+    // //         document.getElementById(`li${i}`).remove();
+    // //     }
+    // // }
+    // for(let i=0;i<arr1.length;i++){
+    //     document.getElementById(`li${arr1[i][1]}`).remove();
+    // }
+    // for (let j = 0; j < arr1.length; j++) {
+    //     var ch1 = false;
+    //     for (let k = 0; k < arr1.length; k++) {
+    //         if (arr1[j][1] == check1[k]) {
+    //             ch1 = true;
+    //             break;
+    //         }
+    //     }
+    //     if (!ch1) {
+    //         // console.log(check[j])
+    //         let html1 = ` <li id="li${arr1[j][1]}">
+    //         <input type="checkbox" name="" id="check${arr1[j][1]}">
+    //        &nbsp;
+    //         <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
+    //        <label>karan ${arr1[j][1]}</label>
+    //            </li>`;
+    //         container.insertAdjacentHTML('beforeend', html1)
+    //     }
+    //     else {
+    //         // console.log(true)
+    //         let html1 = ` <li id="li${arr1[j][1]}">
+    //         <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
+    //           &nbsp;
+    //           <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
+    //           <label>karan ${arr1[j][1]}</label>
+    //       </li>`;
+    //         container.insertAdjacentHTML('beforeend', html1)
+    //     }
+
+    // }
+    // y='';
+    // document.getElementById("sort").value='';
 }
 }
