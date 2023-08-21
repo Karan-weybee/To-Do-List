@@ -145,7 +145,7 @@ document.getElementById('showAll').onclick = function () {
      document.getElementById('showAll').style.background='white';
     document.getElementById('showAll').style.color='black';
     for (let i = 1; i <= id; i++) {
-        if (document.getElementById(`li${i}`) && allactivate==1) {
+        if (document.getElementById(`li${i}`)) {
             document.getElementById(`li${i}`).style.display = 'block';
         }
     }
