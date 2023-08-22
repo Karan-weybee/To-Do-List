@@ -296,11 +296,43 @@ document.getElementById('showAll').onclick = function () {
 
 }
 
+function sortNumber(arr,num,str){
+   let numwithtext=arr.length;
+   for(let i=0;i<numwithtext;i++){
+            var v=Number(arr[i][0])
+            if(v){
+                
+                num.push([v,arr[i][1]])
+            }
+            else{
+                str.push(arr[i])
+            }
+            
+    }
+    // num.sort((a,b) => a-b)
+    str.sort();
+    for (let i = 0; i < num.length; i++) {  
+        for (let j = 0; j < (num.length - i - 1); j++) {
+            if (num[j][0] > num[j + 1][0]) {
+                var temp = num[j]
+                num[j] = num[j + 1]
+                num[j + 1] = temp
+            }
+        }
+    }
+    
+    console.log(str)
+
+   
+   
+}
 function sorting() {
     var y = document.getElementById("sort").value;
     if (y == 'AtoZ') {
         console.log("sorting a to z")
         let arr = [];
+        let num=[];
+        let str=[];
         let check = [];
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
@@ -316,7 +348,16 @@ function sorting() {
 
             }
         }
-        arr.sort();
+        // arr.sort();
+        sortNumber(arr,num,str);
+        arr=[];
+        for(let i=num.length-1;i>=0;i--){
+            arr.unshift(num[i])
+        }
+        for(let i=0;i<str.length;i++){
+            arr.push(str[i])
+        }
+        console.log(num)
         console.log(arr)
         console.log(check)
         for (let i = 0; i < arr.length; i++) {
@@ -371,6 +412,8 @@ function sorting() {
     if (y == 'ZtoA') {
         let arr1 = [];
         let check1 = [];
+        let num=[];
+        let str=[];
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
 
@@ -385,8 +428,14 @@ function sorting() {
 
             }
         }
-        arr1.sort();
-        arr1.reverse();
+        sortNumber(arr1,num,str);
+        arr1=[];
+        for(let i=str.length-1;i>=0;i--){
+            arr1.push(str[i])
+        }
+        for(let i=num.length-1;i>=0;i--){
+            arr1.push(num[i])
+        }
         console.log(arr1)
         console.log(check1)
 
