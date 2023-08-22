@@ -7,19 +7,19 @@ var allactivate = 0;
 var search = 0;
 function searchMode() {
     search = 1;
-    document.getElementById('input').setAttribute('placeholder','search')
+    document.getElementById('input').setAttribute('placeholder', 'search')
 }
 
 document.getElementById('add1').addEventListener('click', function () {
     search = 0;
-    document.getElementById('input').setAttribute('placeholder','add')
+    document.getElementById('input').setAttribute('placeholder', 'add')
     document.getElementById('input-block').style.display = 'block';
     document.getElementById('add1').style.background = 'white';
     document.getElementById('add1').style.color = 'black';
 });
 
 document.addEventListener('keydown', function (e) {
-    if (search == 0 && activate==0) {
+    if (search == 0 && activate == 0) {
         console.log("added")
         let v = document.getElementById('input').value;
         if (e.key == 'Enter' && v != '') {
@@ -28,7 +28,7 @@ document.addEventListener('keydown', function (e) {
           <input type="checkbox" name="" id="check${id}">
           &nbsp;
           <input type="text" name="" id="input${id}" placeholder="enter" value="${v}">
-          <label onclick='edit(${id})'>edit${id}</label>
+          <label onclick='edit(${id})' id='edit${id}'>edit${id}</label>
           <label onclick='back(${id})' id='back${id}'>back</label>
       </li>`;
             lists.push([v, id])
@@ -43,14 +43,14 @@ document.addEventListener('keydown', function (e) {
         console.log("searched")
         let v = document.getElementById('input').value;
         if (e.key == 'Enter' && v != '') {
-            for (let i = 1; i <=id; i++) {
-                if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate==1 && unactivate==0) {
-                        document.getElementById(`li${i}`).style.display = 'block'  
+            for (let i = 1; i <= id; i++) {
+                if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate == 1 && unactivate == 0) {
+                    document.getElementById(`li${i}`).style.display = 'block'
                 }
-                else if(document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate==1 && activate==0){
-                    document.getElementById(`li${i}`).style.display = 'block'  
+                else if (document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate == 1 && activate == 0) {
+                    document.getElementById(`li${i}`).style.display = 'block'
                 }
-                else if(document.getElementById(`li${i}`) && unactivate==0 && activate==0){
+                else if (document.getElementById(`li${i}`) && unactivate == 0 && activate == 0) {
                     document.getElementById(`li${i}`).style.display = 'block'
                 }
             }
@@ -63,22 +63,21 @@ document.addEventListener('keydown', function (e) {
                             console.log(str.includes(v))
                             if (!str.includes(v)) {
                                 document.getElementById(`li${i}`).style.display = 'none'
-
                             }
                         }
                     }
                 }
             }
         }
-        if(v==''){
-            for (let i = 1; i <=id; i++) {
-                if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate==1 && unactivate==0) {
-                        document.getElementById(`li${i}`).style.display = 'block'  
+        if (v == '' && e.key == 'Enter') {
+            for (let i = 1; i <= id; i++) {
+                if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate == 1 && unactivate == 0) {
+                    document.getElementById(`li${i}`).style.display = 'block'
                 }
-                else if(document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate==1 && activate==0){
-                    document.getElementById(`li${i}`).style.display = 'block'  
+                else if (document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate == 1 && activate == 0) {
+                    document.getElementById(`li${i}`).style.display = 'block'
                 }
-                else if(document.getElementById(`li${i}`) && unactivate==0 && activate==0){
+                else if (document.getElementById(`li${i}`) && unactivate == 0 && activate == 0) {
                     document.getElementById(`li${i}`).style.display = 'block'
                 }
             }
@@ -87,23 +86,44 @@ document.addEventListener('keydown', function (e) {
     }
 
 })
-function edit(editId){
+function editCancle(editCan) {
+    document.getElementById(`${editCan}`).remove();
+    document.getElementById(`edit${editCan}`).innerHTML = `edit${editCan}`
+    document.getElementById(`back${editCan}`).innerHTML = `back`
+}
+function edit(editId) {
     console.log(editId)
+    let v = document.getElementById(`input${editId}`).value;
+    document.getElementById(`edit${editId}`).innerHTML = ``
+    document.getElementById(`back${editId}`).innerHTML = ``
     document.getElementById(`input${editId}`).focus()
-    document.addEventListener('keydown',function(e){
-        if(e.key=="Enter"){
-            let val=document.getElementById(`input${editId}`).value;
-            document.getElementById(`input${editId}`).value=val;
-            for(let i=0;i<lists.length;i++){
-                if(lists[i][1]==editId){
-                    lists[i][0]=val;
+
+    var html = `<button class="add" id="${editId}" onclick="editCancle(${editId})">❌</button>`;
+    var lis = document.getElementById(`li${editId}`)
+    lis.insertAdjacentHTML('beforeend', html);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key == "Enter") {
+            let val = document.getElementById(`input${editId}`).value;
+            console.log(val)
+            if (v != val) {
+                document.getElementById(`input${editId}`).value = val;
+                for (let i = 0; i < lists.length; i++) {
+                    if (lists[i][1] == editId) {
+                        lists.splice(i, 1);
+                        lists.push([val, editId])
+                    }
                 }
+                console.log(lists)
+                document.getElementById(`input${editId}`).blur()
             }
-            document.getElementById(`input${editId}`).blur()
+            document.getElementById(`edit${editId}`).innerHTML = `edit${editId}`
+            document.getElementById(`back${editId}`).innerHTML = `back`
+            document.getElementById(`${editId}`).remove();
         }
-      
+        
     })
-    
+
 }
 
 function back(delId) {
@@ -131,20 +151,20 @@ function select() {
     var x = document.getElementById("action").value;
     if (x == 'SelectAll') {
         for (let i = 1; i <= id; i++) {
-            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none'){
+            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
                 document.getElementById(`check${i}`).checked = true;
             }
-           
+
         }
         for (let i = 1; i <= id; i++) {
-            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none' && document.getElementById(`check${i}`).checked && unactivate==1){
-           
-                    document.getElementById(`li${i}`).style.display = 'none';
-                   
+            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none' && document.getElementById(`check${i}`).checked && unactivate == 1) {
+
+                document.getElementById(`li${i}`).style.display = 'none';
+
             }
         }
-   
-    document.getElementById("action").value = '';
+
+        document.getElementById("action").value = '';
     }
     if (x == 'DeleteSelected') {
         var b = true;
@@ -182,23 +202,23 @@ function select() {
             }
         }
         for (let i = 1; i <= id; i++) {
-            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none' && !document.getElementById(`check${i}`).checked && activate==1){
-           
-                    document.getElementById(`li${i}`).style.display = 'none';
-                   
+            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none' && !document.getElementById(`check${i}`).checked && activate == 1) {
+
+                document.getElementById(`li${i}`).style.display = 'none';
+
             }
         }
-        
-       
+
+
         document.getElementById("action").value = '';
     }
 }
 
 document.getElementById('showActive').addEventListener('click', showActive)
 function showActive() {
-    document.getElementById('input').setAttribute('placeholder','search')
+    document.getElementById('input').setAttribute('placeholder', 'search')
     document.getElementById('input').value = ''
-   
+
     allactivate = 0;
     activate = 1;
     unactivate = 0;
@@ -231,11 +251,11 @@ function showActive() {
 
 document.getElementById('showunActive').addEventListener('click', showunActive)
 function showunActive() {
-    if(search == 1){
-        document.getElementById('input').setAttribute('placeholder','search');
+    if (search == 1) {
+        document.getElementById('input').setAttribute('placeholder', 'search');
     }
-    else{
-        document.getElementById('input').setAttribute('placeholder','add');
+    else {
+        document.getElementById('input').setAttribute('placeholder', 'add');
     }
     document.getElementById('input').value = ''
     allactivate = 0;
@@ -273,11 +293,11 @@ function showunActive() {
 
 document.getElementById('showAll').onclick = function () {
     document.getElementById('input').value = ''
-    if(search == 1){
-        document.getElementById('input').setAttribute('placeholder','search');
+    if (search == 1) {
+        document.getElementById('input').setAttribute('placeholder', 'search');
     }
-    else{
-        document.getElementById('input').setAttribute('placeholder','add');
+    else {
+        document.getElementById('input').setAttribute('placeholder', 'add');
     }
     allactivate = 1;
     activate = 0;
@@ -296,22 +316,22 @@ document.getElementById('showAll').onclick = function () {
 
 }
 
-function sortNumber(arr,num,str){
-   let numwithtext=arr.length;
-   for(let i=0;i<numwithtext;i++){
-            var v=Number(arr[i][0])
-            if(v){
-                
-                num.push([v,arr[i][1]])
-            }
-            else{
-                str.push(arr[i])
-            }
-            
+function sortNumber(arr, num, str) {
+    let numwithtext = arr.length;
+    for (let i = 0; i < numwithtext; i++) {
+        var v = Number(arr[i][0])
+        if (v) {
+
+            num.push([v, arr[i][1]])
+        }
+        else {
+            str.push(arr[i])
+        }
+
     }
     // num.sort((a,b) => a-b)
     str.sort();
-    for (let i = 0; i < num.length; i++) {  
+    for (let i = 0; i < num.length; i++) {
         for (let j = 0; j < (num.length - i - 1); j++) {
             if (num[j][0] > num[j + 1][0]) {
                 var temp = num[j]
@@ -320,19 +340,19 @@ function sortNumber(arr,num,str){
             }
         }
     }
-    
+
     console.log(str)
 
-   
-   
+
+
 }
 function sorting() {
     var y = document.getElementById("sort").value;
     if (y == 'AtoZ') {
         console.log("sorting a to z")
         let arr = [];
-        let num=[];
-        let str=[];
+        let num = [];
+        let str = [];
         let check = [];
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
@@ -349,12 +369,12 @@ function sorting() {
             }
         }
         // arr.sort();
-        sortNumber(arr,num,str);
-        arr=[];
-        for(let i=num.length-1;i>=0;i--){
+        sortNumber(arr, num, str);
+        arr = [];
+        for (let i = num.length - 1; i >= 0; i--) {
             arr.unshift(num[i])
         }
-        for(let i=0;i<str.length;i++){
+        for (let i = 0; i < str.length; i++) {
             arr.push(str[i])
         }
         console.log(num)
@@ -377,7 +397,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr[j][1]}">
            &nbsp;
             <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}">
-            <label onclick='edit(${arr[j][1]})'>edit${arr[j][1]}</label>
+            <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'>edit${arr[j][1]}</label>
             <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'>back</label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -388,7 +408,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr[j][1]}" checked>
               &nbsp;
               <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}">
-              <label onclick='edit(${arr[j][1]})'>edit${arr[j][1]}</label>
+              <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'>edit${arr[j][1]}</label>
               <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'>back</label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -397,11 +417,18 @@ function sorting() {
         }
         y = '';
         document.getElementById("sort").value = '';
-        if (unactivate == 1 || (unactivate == 1 && search==1)) {
-            showunActive();
-        }
-        if (activate == 1) {
-            showActive();
+      
+        for(let i=0;i<arr.length;i++){
+            document.getElementById(`check${arr[i][1]}`).onclick = function () {
+                if (document.getElementById(`check${arr[i][1]}`).checked && unactivate == 1) {
+                    document.getElementById(`li${arr[i][1]}`).style.display = 'none'
+
+                }
+                if (!document.getElementById(`check${arr[i][1]}`).checked && activate == 1) {
+                    document.getElementById(`li${arr[i][1]}`).style.display = 'none'
+
+                }
+            }
         }
 
         console.log("activa", activate)
@@ -412,8 +439,8 @@ function sorting() {
     if (y == 'ZtoA') {
         let arr1 = [];
         let check1 = [];
-        let num=[];
-        let str=[];
+        let num = [];
+        let str = [];
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
 
@@ -428,12 +455,12 @@ function sorting() {
 
             }
         }
-        sortNumber(arr1,num,str);
-        arr1=[];
-        for(let i=str.length-1;i>=0;i--){
+        sortNumber(arr1, num, str);
+        arr1 = [];
+        for (let i = str.length - 1; i >= 0; i--) {
             arr1.push(str[i])
         }
-        for(let i=num.length-1;i>=0;i--){
+        for (let i = num.length - 1; i >= 0; i--) {
             arr1.push(num[i])
         }
         console.log(arr1)
@@ -456,7 +483,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
             <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-            <label onclick='edit(${arr1[j][1]})'>edit${arr1[j][1]}</label>
+            <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
             <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -467,7 +494,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
               <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-              <label onclick='edit(${arr1[j][1]})'>edit${arr1[j][1]}</label>
+              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
               <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -476,11 +503,17 @@ function sorting() {
         }
         y = '';
         document.getElementById("sort").value = '';
-        if (unactivate == 1 || (unactivate == 1 && search==1)) {
-            showunActive();
-        }
-        if (activate == 1) {
-            showActive();
+        for(let i=0;i<arr1.length;i++){
+            document.getElementById(`check${arr1[i][1]}`).onclick = function () {
+                if (document.getElementById(`check${arr1[i][1]}`).checked && unactivate == 1) {
+                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
+
+                }
+                if (!document.getElementById(`check${arr1[i][1]}`).checked && activate == 1) {
+                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
+
+                }
+            }
         }
     }
 
@@ -491,13 +524,6 @@ function sorting() {
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
 
-                // var inp = document.getElementById(`input${i}`).value;
-                // arr1.push([inp, i]);
-                for (let j = 0; j < lists.length; j++) {
-                    if (lists[j][1] == i) {
-                        arr1.push(lists[j])
-                    }
-                }
                 if (document.getElementById(`check${i}`).checked) {
                     check1.push(i)
                 }
@@ -507,11 +533,17 @@ function sorting() {
 
             }
         }
+        for (let j = 0; j < lists.length; j++) {
+            if (document.getElementById(`li${lists[j][1]}`) && document.getElementById(`li${lists[j][1]}`).style.display != 'none') {
+                arr1.push(lists[j])
+            }
+        }
         console.log(arr1)
         console.log(check1)
 
         for (let i = 0; i < arr1.length; i++) {
             document.getElementById(`li${arr1[i][1]}`).remove();
+            console.log(arr1[i][1])
         }
         for (let j = 0; j < arr1.length; j++) {
             var ch1 = false;
@@ -527,7 +559,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
             <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-           <label onclick='edit(${arr1[j][1]})'>edit${arr1[j][1]}</label>
+           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -538,7 +570,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
               <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-              <label onclick='edit(${arr1[j][1]})'>edit${arr1[j][1]}</label>
+              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
               <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -547,29 +579,26 @@ function sorting() {
         }
         y = '';
         document.getElementById("sort").value = '';
-        if (unactivate == 1 || (unactivate == 1 && search==1)) {
-            showunActive();
-        }
-        if (activate == 1) {
-            showActive();
+        for(let i=0;i<arr1.length;i++){
+            document.getElementById(`check${arr1[i][1]}`).onclick = function () {
+                if (document.getElementById(`check${arr1[i][1]}`).checked && unactivate == 1) {
+                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
+
+                }
+                if (!document.getElementById(`check${arr1[i][1]}`).checked && activate == 1) {
+                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
+
+                }
+            }
         }
 
     }
     if (y == 'Newest') {
-
-
         let arr1 = [];
         let check1 = [];
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
 
-                // var inp = document.getElementById(`input${i}`).value;
-                // arr1.push([inp, i]);
-                for (let j = 0; j < lists.length; j++) {
-                    if (lists[j][1] == i) {
-                        arr1.unshift(lists[j])
-                    }
-                }
                 if (document.getElementById(`check${i}`).checked) {
                     check1.push(i)
                 }
@@ -579,6 +608,13 @@ function sorting() {
 
             }
         }
+        for (let j = 0; j < lists.length; j++) {
+            if (document.getElementById(`li${lists[j][1]}`) && document.getElementById(`li${lists[j][1]}`).style.display != 'none') {
+                arr1.push(lists[j])
+            }
+        }
+
+        arr1.reverse()
         console.log(arr1)
         console.log(check1)
 
@@ -599,8 +635,8 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
             <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-            <label onclick='edit(${arr1[j][1]})'>edit${arr1[j][1]}</label>
-            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
+           <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -610,7 +646,7 @@ function sorting() {
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
               <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-              <label onclick='edit(${arr1[j][1]})'>edit${arr1[j][1]}</label>
+              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
               <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
@@ -619,11 +655,17 @@ function sorting() {
         }
         y = '';
         document.getElementById("sort").value = '';
-        if (unactivate == 1 || (unactivate == 1 && search==1)) {
-            showunActive();
-        }
-        if (activate == 1) {
-            showActive();
+        for(let i=0;i<arr1.length;i++){
+            document.getElementById(`check${arr1[i][1]}`).onclick = function () {
+                if (document.getElementById(`check${arr1[i][1]}`).checked && unactivate == 1) {
+                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
+
+                }
+                if (!document.getElementById(`check${arr1[i][1]}`).checked && activate == 1) {
+                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
+
+                }
+            }
         }
 
     }
