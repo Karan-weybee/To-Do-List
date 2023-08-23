@@ -141,8 +141,7 @@ function editCancle(editCan) {
     document.getElementById(`${editCan}`).remove();
     document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
     document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
-    // document.getElementById(`input${lists[editCan][1]}`).value = v
-    // lists[editCan][0] = v;
+  
     for(let i=0;i<lists.length;i++){
         if(document.getElementById(`li${editCan}`)){
             if(lists[i][1]==editCan){
@@ -150,12 +149,21 @@ function editCancle(editCan) {
             }
         }
     }
-  edit(editCan)
-  document.getElementById(`${editCan}`).remove();
-    document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
-    document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
-    document.getElementById(`input${editCan}`).blur()
+//   edit(editCan)
+//   document.getElementById(`${editCan}`).remove();
+//     document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
+//     document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
+//     document.getElementById(`input${editCan}`).blur()
 
+}
+function assignVal(editId){
+    for(let i=0;i<lists.length;i++){
+        if(document.getElementById(`li${editId}`)){
+            if(lists[i][1]==editId){
+                document.getElementById(`input${editId}`).value=lists[i][0]
+            }
+        }
+    }
 }
 function edit(editId) {
     let editable = true;
@@ -188,6 +196,7 @@ function edit(editId) {
             }
             if (v != val && !b) {
                 document.getElementById(`input${editId}`).value = val;
+                console.log("assign",val)
                 let index = -1;
                 for (let i = 0; i < lists.length; i++) {
                     if (lists[i][1] == editId) {
@@ -210,15 +219,21 @@ function edit(editId) {
             }
             document.getElementById(`edit${editId}`).innerHTML = `<img src="icons/edit.png" alt="">`
             document.getElementById(`back${editId}`).innerHTML = `<img src="icons/backspace.png" alt="">`
+            if(document.getElementById(`${editId}`)){
             document.getElementById(`${editId}`).remove();
-            noData()
-            editId = ''
+            }
+            
+           
             editable = false
+            noData()
+            assignVal(editId)
+            editId =''
+            
         }
 
-
-
+        
     })
+   
     
 }
 
