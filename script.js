@@ -370,7 +370,12 @@ function sortNumber(arr, num, str) {
 }
 function sorting() {
     var y = document.getElementById("sort").value;
-    if (y == 'AtoZ') {
+    if (y == 'AtoZ' || y=='ZtoA') {
+        let atoz=0;
+        let ztoa=0;
+        if(y == 'AtoZ'){atoz=1}
+        else{ztoa=1}
+
         console.log("sorting a to z")
         let arr = [];
         let num = [];
@@ -393,12 +398,22 @@ function sorting() {
         // arr.sort();
         sortNumber(arr, num, str);
         arr = [];
+        if(atoz==1 && ztoa==0){
         for (let i = num.length - 1; i >= 0; i--) {
             arr.unshift(num[i])
         }
         for (let i = 0; i < str.length; i++) {
             arr.push(str[i])
         }
+    }
+    else{
+        for (let i = str.length - 1; i >= 0; i--) {
+            arr.push(str[i])
+        }
+        for (let i = num.length - 1; i >= 0; i--) {
+            arr.push(num[i])
+        }
+    }
         console.log(num)
         console.log(arr)
         console.log(check)
@@ -458,88 +473,12 @@ function sorting() {
         console.log("allactiva", allactivate)
     }
 
-    if (y == 'ZtoA') {
-        let arr1 = [];
-        let check1 = [];
-        let num = [];
-        let str = [];
-        for (let i = 1; i <= id; i++) {
-            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
 
-                var inp = document.getElementById(`input${i}`).value;
-                arr1.push([inp, i]);
-                if (document.getElementById(`check${i}`).checked) {
-                    check1.push(i)
-                }
-                else {
-                    check1.push(0)
-                }
-
-            }
-        }
-        sortNumber(arr1, num, str);
-        arr1 = [];
-        for (let i = str.length - 1; i >= 0; i--) {
-            arr1.push(str[i])
-        }
-        for (let i = num.length - 1; i >= 0; i--) {
-            arr1.push(num[i])
-        }
-        console.log(arr1)
-        console.log(check1)
-
-        for (let i = 0; i < arr1.length; i++) {
-            document.getElementById(`li${arr1[i][1]}`).remove();
-        }
-        for (let j = 0; j < arr1.length; j++) {
-            var ch1 = false;
-            for (let k = 0; k < arr1.length; k++) {
-                if (arr1[j][1] == check1[k]) {
-                    ch1 = true;
-                    break;
-                }
-            }
-            if (!ch1) {
-                // console.log(check[j])
-                let html1 = ` <li id="li${arr1[j][1]}">
-            <input type="checkbox" name="" id="check${arr1[j][1]}">
-           &nbsp;
-            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
-            <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
-            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
-               </li>`;
-                container.insertAdjacentHTML('beforeend', html1)
-            }
-            else {
-                // console.log(true)
-                let html1 = ` <li id="li${arr1[j][1]}">
-            <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
-              &nbsp;
-              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
-              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
-              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
-          </li>`;
-                container.insertAdjacentHTML('beforeend', html1)
-            }
-
-        }
-        y = '';
-        document.getElementById("sort").value = '';
-        for(let i=0;i<arr1.length;i++){
-            document.getElementById(`check${arr1[i][1]}`).onclick = function () {
-                if (document.getElementById(`check${arr1[i][1]}`).checked && unactivate == 1) {
-                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
-
-                }
-                if (!document.getElementById(`check${arr1[i][1]}`).checked && activate == 1) {
-                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
-
-                }
-            }
-        }
-    }
-
-    if (y == 'Oldest') {
+    if (y == 'Oldest' || y == 'Newest') {
+        let oldest=0;
+        let newest=0;
+        if(y == 'Oldest'){oldest=1}
+        else{newest=1}
 
         let arr1 = [];
         let check1 = [];
@@ -559,6 +498,9 @@ function sorting() {
             if (document.getElementById(`li${lists[j][1]}`) && document.getElementById(`li${lists[j][1]}`).style.display != 'none') {
                 arr1.push(lists[j])
             }
+        }
+        if(oldest==0 && newest==1){
+        arr1.reverse()
         }
         console.log(arr1)
         console.log(check1)
@@ -566,82 +508,6 @@ function sorting() {
         for (let i = 0; i < arr1.length; i++) {
             document.getElementById(`li${arr1[i][1]}`).remove();
             console.log(arr1[i][1])
-        }
-        for (let j = 0; j < arr1.length; j++) {
-            var ch1 = false;
-            for (let k = 0; k < arr1.length; k++) {
-                if (arr1[j][1] == check1[k]) {
-                    ch1 = true;
-                    break;
-                }
-            }
-            if (!ch1) {
-                // console.log(check[j])
-                let html1 = ` <li id="li${arr1[j][1]}">
-            <input type="checkbox" name="" id="check${arr1[j][1]}">
-           &nbsp;
-            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
-           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
-           <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
-               </li>`;
-                container.insertAdjacentHTML('beforeend', html1)
-            }
-            else {
-                // console.log(true)
-                let html1 = ` <li id="li${arr1[j][1]}">
-            <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
-              &nbsp;
-              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
-              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
-              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
-          </li>`;
-                container.insertAdjacentHTML('beforeend', html1)
-            }
-
-        }
-        y = '';
-        document.getElementById("sort").value = '';
-        for(let i=0;i<arr1.length;i++){
-            document.getElementById(`check${arr1[i][1]}`).onclick = function () {
-                if (document.getElementById(`check${arr1[i][1]}`).checked && unactivate == 1) {
-                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
-
-                }
-                if (!document.getElementById(`check${arr1[i][1]}`).checked && activate == 1) {
-                    document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
-
-                }
-            }
-        }
-
-    }
-    if (y == 'Newest') {
-        let arr1 = [];
-        let check1 = [];
-        for (let i = 1; i <= id; i++) {
-            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
-
-                if (document.getElementById(`check${i}`).checked) {
-                    check1.push(i)
-                }
-                else {
-                    check1.push(0)
-                }
-
-            }
-        }
-        for (let j = 0; j < lists.length; j++) {
-            if (document.getElementById(`li${lists[j][1]}`) && document.getElementById(`li${lists[j][1]}`).style.display != 'none') {
-                arr1.push(lists[j])
-            }
-        }
-
-        arr1.reverse()
-        console.log(arr1)
-        console.log(check1)
-
-        for (let i = 0; i < arr1.length; i++) {
-            document.getElementById(`li${arr1[i][1]}`).remove();
         }
         for (let j = 0; j < arr1.length; j++) {
             var ch1 = false;
