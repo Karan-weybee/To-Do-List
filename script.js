@@ -5,7 +5,23 @@ var unactivate = 0;
 var activate = 0;
 var allactivate = 0;
 var search = 0;
+//for no data found
+function noData(){
+    let b=false;
+    for(let i=0;i<lists.length;i++){
+      if(document.getElementById(`li${lists[i][1]}`) && document.getElementById(`li${lists[i][1]}`).style.display != 'none'){
+        b=true;
+        document.getElementById(`empty`).style.display = 'none'
+        break;
+      }
+    }
+    if(!b){
+        document.getElementById(`empty`).style.display = 'block'
+    }
+    // console.log("no data found")
+}
 function searchMode() {
+    noData()
     search = 1;
     document.getElementById('input').setAttribute('placeholder', 'search')
     document.getElementById('add1').style.background = '#0D6EFD';
@@ -15,6 +31,7 @@ function searchMode() {
 }
 
 document.getElementById('add1').addEventListener('click', function () {
+    noData()
     search = 0;
     document.getElementById('input').setAttribute('placeholder', 'add')
     document.getElementById('search').style.background = '#0D6EFD';
@@ -24,6 +41,7 @@ document.getElementById('add1').addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (e) {
+    noData()
     if (search == 0 && activate == 0) {
         let b=false;
         console.log("added")
@@ -35,6 +53,7 @@ document.addEventListener('keydown', function (e) {
             }
         }
         if (e.key == 'Enter' && v != '' && !b) {
+          
             id++;
             var html = ` <li id="li${id}">
           <input type="checkbox" name="" id="check${id}">
@@ -47,11 +66,13 @@ document.addEventListener('keydown', function (e) {
             var container = document.getElementById('container');
             container.insertAdjacentHTML('beforeend', html);
             document.getElementById('input').value = '';
+            noData()
         }
         // console.log(lists)
+        noData()
     }
     else {
-
+        noData()
         console.log("searched")
         let v = document.getElementById('input').value;
         if (e.key == 'Enter' && v != '') {
@@ -75,11 +96,13 @@ document.addEventListener('keydown', function (e) {
                             console.log(str.includes(v))
                             if (!str.includes(v)) {
                                 document.getElementById(`li${i}`).style.display = 'none'
+                                noData()
                             }
                         }
                     }
                 }
             }
+            noData()
         }
         if (v == '' && e.key == 'Enter') {
             for (let i = 1; i <= id; i++) {
@@ -93,17 +116,20 @@ document.addEventListener('keydown', function (e) {
                     document.getElementById(`li${i}`).style.display = 'block'
                 }
             }
+            noData()
         }
-
+        noData()
     }
 
 })
 function editCancle(editCan) {
+    noData()
     document.getElementById(`${editCan}`).remove();
     document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
     document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
 }
 function edit(editId) {
+    noData()
     console.log(editId)
     let v = document.getElementById(`input${editId}`).value;
     document.getElementById(`edit${editId}`).innerHTML = ``
@@ -115,6 +141,7 @@ function edit(editId) {
     lis.insertAdjacentHTML('beforeend', html);
 
     document.addEventListener('keydown', function (e) {
+        noData()
         if (e.key == "Enter") {
             let val = document.getElementById(`input${editId}`).value;
             console.log(val)
@@ -142,6 +169,7 @@ function edit(editId) {
             document.getElementById(`edit${editId}`).innerHTML = `<img src="icons/edit.png" alt="">`
             document.getElementById(`back${editId}`).innerHTML = `<img src="icons/backspace.png" alt="">`
             document.getElementById(`${editId}`).remove();
+            noData()
         }
         
     })
@@ -168,6 +196,7 @@ function back(delId) {
     if (!b) {
         id = 0;
     }
+    noData()
 }
 function select() {
     var x = document.getElementById("action").value;
@@ -185,7 +214,7 @@ function select() {
 
             }
         }
-
+        noData()
         document.getElementById("action").value = '';
     }
     if (x == 'DeleteSelected') {
@@ -215,6 +244,7 @@ function select() {
         if (!b) {
             id = 0;
         }
+        noData()
         document.getElementById("action").value = '';
     }
     if (x == 'UnselectAll') {
@@ -233,6 +263,7 @@ function select() {
 
 
         document.getElementById("action").value = '';
+        noData()
     }
 }
 
@@ -269,6 +300,7 @@ function showActive() {
             }
         }
     }
+    noData()
 }
 
 document.getElementById('showunActive').addEventListener('click', showunActive)
@@ -310,7 +342,7 @@ function showunActive() {
         }
     }
 
-
+    noData()
 }
 
 document.getElementById('showAll').onclick = function () {
@@ -335,7 +367,7 @@ document.getElementById('showAll').onclick = function () {
             document.getElementById(`li${i}`).style.display = 'block';
         }
     }
-
+    noData()
 }
 
 function sortNumber(arr, num, str) {
@@ -557,4 +589,5 @@ function sorting() {
         }
 
     }
+    noData()
 }
