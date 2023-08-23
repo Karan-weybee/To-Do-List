@@ -70,7 +70,7 @@ document.addEventListener('keydown', function (e) {
                 var html = ` <li id="li${id}" >
           <input type="checkbox" name="" id="check${id}">
          &nbsp;
-          <input type="text" name="" id="input${id}" placeholder="enter" value="${v}"  style="width:80%; border:1px">
+          <input type="text" name="" class="inpAdd" id="input${id}" value="${v}" placeholder="enter"  style="width:80%; border:1px; overflow:visible">
           <label onclick='edit(${id})' id='edit${id}'><img src="icons/edit.png" alt=""></label>
           <label onclick='back(${id})' id='back${id}'><img src="icons/backspace.png" alt=""></label>
       </li> `;
@@ -149,12 +149,6 @@ function editCancle(editCan) {
             }
         }
     }
-//   edit(editCan)
-//   document.getElementById(`${editCan}`).remove();
-//     document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
-//     document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
-//     document.getElementById(`input${editCan}`).blur()
-
 }
 function assignVal(editId){
     for(let i=0;i<lists.length;i++){
@@ -487,7 +481,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr[j][1]}">
             <input type="checkbox" name="" id="check${arr[j][1]}">
            &nbsp;
-            <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
+            <input type="text" class="inpAdd" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
             <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'><img src="icons/edit.png" alt=""></label>
             <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
@@ -498,7 +492,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr[j][1]}">
             <input type="checkbox" name="" id="check${arr[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
+              <input type="text" name="" class="inpAdd" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
               <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'><img src="icons/edit.png" alt=""></label>
               <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
@@ -576,7 +570,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
-            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+            <input type="text" name="" class="inpAdd" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
            <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
@@ -587,7 +581,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+              <input type="text" name="" class="inpAdd" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
               <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
               <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;

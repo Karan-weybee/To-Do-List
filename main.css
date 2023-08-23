@@ -67,3 +67,7 @@ img{
     height: 1.2em;
     margin-left: 1.1em;
 }
+.inpAdd{
+    text-overflow: ellipsis;
+  /* text-overflow */
+}
