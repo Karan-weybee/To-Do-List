@@ -5,22 +5,26 @@ var unactivate = 0;
 var activate = 0;
 var allactivate = 0;
 var search = 0;
+
 //for no data found
-function noData(){
-    if(document.getElementById(`input`).style.display=='none'){
-    let b=false;
-    for(let i=0;i<lists.length;i++){
-      if(document.getElementById(`li${lists[i][1]}`) && document.getElementById(`li${lists[i][1]}`).style.display != 'none'){
-        b=true;
+function noData() {
+    if (document.getElementById(`input-block`).style.display != 'none') {
+        let b = false;
+        for (let i = 0; i < lists.length; i++) {
+            if (document.getElementById(`li${lists[i][1]}`) && document.getElementById(`li${lists[i][1]}`).style.display != 'none') {
+                b = true;
+                document.getElementById(`empty`).style.display = 'none'
+                break;
+            }
+        }
+        if (!b) {
+            document.getElementById(`empty`).style.display = 'block'
+        }
+        // console.log("no data found")
+    }
+    else {
         document.getElementById(`empty`).style.display = 'none'
-        break;
-      }
     }
-    if(!b){
-        document.getElementById(`empty`).style.display = 'block'
-    }
-    // console.log("no data found")
-}
 }
 function searchMode() {
     noData()
@@ -33,42 +37,49 @@ function searchMode() {
 }
 
 document.getElementById('add1').addEventListener('click', function () {
-    noData()
     search = 0;
     document.getElementById('input').setAttribute('placeholder', 'add')
     document.getElementById('search').style.background = '#0D6EFD';
     document.getElementById('input-block').style.display = 'block';
     document.getElementById('add1').style.background = 'white';
     document.getElementById('add1').style.color = 'black';
+    noData()
 });
 
 document.addEventListener('keydown', function (e) {
     noData()
     if (search == 0 && activate == 0) {
-        let b=false;
+        let b = false;
         console.log("added")
         let v = document.getElementById('input').value;
-        for(let i=0;i<lists.length;i++){
-            if(lists[i][0]==v){
-                b=true;
+
+        for (let i = 0; i < lists.length; i++) {
+            if (lists[i][0] == v) {
+                b = true;
                 break;
             }
         }
-        if (e.key == 'Enter' && v != '' && !b) {
-          
-            id++;
-            var html = ` <li id="li${id}">
+
+        if (e.key == 'Enter' && v != '') {
+            if (b) {
+                alert(`value :- ${v} is already available`)
+                document.getElementById('input').value = '';
+            }
+            if (!b) {
+                id++;
+                var html = ` <li id="li${id}" >
           <input type="checkbox" name="" id="check${id}">
          &nbsp;
           <input type="text" name="" id="input${id}" placeholder="enter" value="${v}"  style="width:80%; border:1px">
           <label onclick='edit(${id})' id='edit${id}'><img src="icons/edit.png" alt=""></label>
           <label onclick='back(${id})' id='back${id}'><img src="icons/backspace.png" alt=""></label>
       </li> `;
-            lists.push([v, id])
-            var container = document.getElementById('container');
-            container.insertAdjacentHTML('beforeend', html);
-            document.getElementById('input').value = '';
-            noData()
+                lists.push([v, id])
+                var container = document.getElementById('container');
+                container.insertAdjacentHTML('beforeend', html);
+                document.getElementById('input').value = '';
+                noData()
+            }
         }
         // console.log(lists)
         noData()
@@ -126,14 +137,32 @@ document.addEventListener('keydown', function (e) {
 })
 function editCancle(editCan) {
     noData()
+
     document.getElementById(`${editCan}`).remove();
     document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
     document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
+    // document.getElementById(`input${lists[editCan][1]}`).value = v
+    // lists[editCan][0] = v;
+    for(let i=0;i<lists.length;i++){
+        if(document.getElementById(`li${editCan}`)){
+            if(lists[i][1]==editCan){
+                document.getElementById(`input${editCan}`).value=lists[i][0]
+            }
+        }
+    }
+  edit(editCan)
+  document.getElementById(`${editCan}`).remove();
+    document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
+    document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
+    document.getElementById(`input${editCan}`).blur()
+
 }
 function edit(editId) {
+    let editable = true;
     noData()
     console.log(editId)
     let v = document.getElementById(`input${editId}`).value;
+    console.log(v)
     document.getElementById(`edit${editId}`).innerHTML = ``
     document.getElementById(`back${editId}`).innerHTML = ``
     document.getElementById(`input${editId}`).focus()
@@ -144,38 +173,53 @@ function edit(editId) {
 
     document.addEventListener('keydown', function (e) {
         noData()
-        if (e.key == "Enter") {
+        if (e.key == "Enter" && editId != '' && editable) {
+            console.log("edit", editId)
+
             let val = document.getElementById(`input${editId}`).value;
-            console.log(val)
-            let b=false;
-            for(let i=0;i<lists.length;i++){
-                if(lists[i][0]==v){
-                    b=true;
+            console.log("active value", val, editId)
+            let b = false;
+            for (let i = 0; i < lists.length; i++) {
+                if (lists[i][0] == val) {
+                    b = true;
+                    // alert(`value :- ${val} is already available`)
                     break;
                 }
             }
             if (v != val && !b) {
                 document.getElementById(`input${editId}`).value = val;
+                let index = -1;
                 for (let i = 0; i < lists.length; i++) {
                     if (lists[i][1] == editId) {
-                        lists.splice(i, 1);
-                        lists.push([val, editId])
+                        index = i;
                     }
                 }
+                if (index > -1) {
+                    lists.splice(index, 1);
+                    lists.push([val, editId])
+                    // document.getElementById(`input${}`).value=val;
+                    index = -1
+                }
+
                 console.log(lists)
                 document.getElementById(`input${editId}`).blur()
             }
-            else{
-                document.getElementById(`input${editId}`).value=v;
+            else {
+                document.getElementById(`input${editId}`).value = v;
+                document.getElementById(`input${editId}`).blur()
             }
             document.getElementById(`edit${editId}`).innerHTML = `<img src="icons/edit.png" alt="">`
             document.getElementById(`back${editId}`).innerHTML = `<img src="icons/backspace.png" alt="">`
             document.getElementById(`${editId}`).remove();
             noData()
+            editId = ''
+            editable = false
         }
-        
-    })
 
+
+
+    })
+    
 }
 
 function back(delId) {
@@ -197,6 +241,7 @@ function back(delId) {
     }
     if (!b) {
         id = 0;
+        noData()
     }
     noData()
 }
@@ -372,48 +417,17 @@ document.getElementById('showAll').onclick = function () {
     noData()
 }
 
-function sortNumber(arr, num, str) {
-    let numwithtext = arr.length;
-    for (let i = 0; i < numwithtext; i++) {
-        var v = Number(arr[i][0])
-        if (v) {
-
-            num.push([v, arr[i][1]])
-        }
-        else {
-            str.push(arr[i])
-        }
-
-    }
-    // num.sort((a,b) => a-b)
-    str.sort();
-    for (let i = 0; i < num.length; i++) {
-        for (let j = 0; j < (num.length - i - 1); j++) {
-            if (num[j][0] > num[j + 1][0]) {
-                var temp = num[j]
-                num[j] = num[j + 1]
-                num[j + 1] = temp
-            }
-        }
-    }
-
-    console.log(str)
-
-
-
-}
 function sorting() {
     var y = document.getElementById("sort").value;
-    if (y == 'AtoZ' || y=='ZtoA') {
-        let atoz=0;
-        let ztoa=0;
-        if(y == 'AtoZ'){atoz=1}
-        else{ztoa=1}
+    if (y == 'AtoZ' || y == 'ZtoA') {
+        let atoz = 0;
+        let ztoa = 0;
+        if (y == 'AtoZ') { atoz = 1 }
+        else { ztoa = 1 }
 
         console.log("sorting a to z")
         let arr = [];
         let num = [];
-        let str = [];
         let check = [];
         for (let i = 1; i <= id; i++) {
             if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
@@ -429,25 +443,16 @@ function sorting() {
 
             }
         }
-        // arr.sort();
-        sortNumber(arr, num, str);
-        arr = [];
-        if(atoz==1 && ztoa==0){
-        for (let i = num.length - 1; i >= 0; i--) {
-            arr.unshift(num[i])
+
+        const naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+        arr.sort((a, b) => naturalCollator.compare(a, b));
+
+        if (atoz == 1 && ztoa == 0) {
+
         }
-        for (let i = 0; i < str.length; i++) {
-            arr.push(str[i])
+        else {
+            arr.reverse();
         }
-    }
-    else{
-        for (let i = str.length - 1; i >= 0; i--) {
-            arr.push(str[i])
-        }
-        for (let i = num.length - 1; i >= 0; i--) {
-            arr.push(num[i])
-        }
-    }
         console.log(num)
         console.log(arr)
         console.log(check)
@@ -488,8 +493,8 @@ function sorting() {
         }
         y = '';
         document.getElementById("sort").value = '';
-      
-        for(let i=0;i<arr.length;i++){
+
+        for (let i = 0; i < arr.length; i++) {
             document.getElementById(`check${arr[i][1]}`).onclick = function () {
                 if (document.getElementById(`check${arr[i][1]}`).checked && unactivate == 1) {
                     document.getElementById(`li${arr[i][1]}`).style.display = 'none'
@@ -509,10 +514,10 @@ function sorting() {
 
 
     if (y == 'Oldest' || y == 'Newest') {
-        let oldest=0;
-        let newest=0;
-        if(y == 'Oldest'){oldest=1}
-        else{newest=1}
+        let oldest = 0;
+        let newest = 0;
+        if (y == 'Oldest') { oldest = 1 }
+        else { newest = 1 }
 
         let arr1 = [];
         let check1 = [];
@@ -533,8 +538,8 @@ function sorting() {
                 arr1.push(lists[j])
             }
         }
-        if(oldest==0 && newest==1){
-        arr1.reverse()
+        if (oldest == 0 && newest == 1) {
+            arr1.reverse()
         }
         console.log(arr1)
         console.log(check1)
@@ -577,7 +582,7 @@ function sorting() {
         }
         y = '';
         document.getElementById("sort").value = '';
-        for(let i=0;i<arr1.length;i++){
+        for (let i = 0; i < arr1.length; i++) {
             document.getElementById(`check${arr1[i][1]}`).onclick = function () {
                 if (document.getElementById(`check${arr1[i][1]}`).checked && unactivate == 1) {
                     document.getElementById(`li${arr1[i][1]}`).style.display = 'none'
