@@ -30,7 +30,9 @@ h1{
     background-color: #0D6EFD;
     border: 2px solid #0D6EFD;
  }
-
+#empty{
+    display: none;
+}
 #action{
     height: 30px;
     width: 27%;
@@ -56,4 +58,12 @@ h1{
 }
 li{
     list-style: none;
+    border-bottom: 1px solid black;
+    padding-bottom: 3px;
+    width: 95%;
+}
+img{
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 1.1em;
 }

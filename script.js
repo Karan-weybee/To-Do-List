@@ -8,11 +8,16 @@ var search = 0;
 function searchMode() {
     search = 1;
     document.getElementById('input').setAttribute('placeholder', 'search')
+    document.getElementById('add1').style.background = '#0D6EFD';
+    document.getElementById('add1').style.color = 'white';
+    document.getElementById('search').style.background = 'white';
+
 }
 
 document.getElementById('add1').addEventListener('click', function () {
     search = 0;
     document.getElementById('input').setAttribute('placeholder', 'add')
+    document.getElementById('search').style.background = '#0D6EFD';
     document.getElementById('input-block').style.display = 'block';
     document.getElementById('add1').style.background = 'white';
     document.getElementById('add1').style.color = 'black';
@@ -20,17 +25,24 @@ document.getElementById('add1').addEventListener('click', function () {
 
 document.addEventListener('keydown', function (e) {
     if (search == 0 && activate == 0) {
+        let b=false;
         console.log("added")
         let v = document.getElementById('input').value;
-        if (e.key == 'Enter' && v != '') {
+        for(let i=0;i<lists.length;i++){
+            if(lists[i][0]==v){
+                b=true;
+                break;
+            }
+        }
+        if (e.key == 'Enter' && v != '' && !b) {
             id++;
             var html = ` <li id="li${id}">
           <input type="checkbox" name="" id="check${id}">
-          &nbsp;
-          <input type="text" name="" id="input${id}" placeholder="enter" value="${v}">
-          <label onclick='edit(${id})' id='edit${id}'>edit${id}</label>
-          <label onclick='back(${id})' id='back${id}'>back</label>
-      </li>`;
+         &nbsp;
+          <input type="text" name="" id="input${id}" placeholder="enter" value="${v}"  style="width:80%; border:1px">
+          <label onclick='edit(${id})' id='edit${id}'><img src="icons/edit.png" alt=""></label>
+          <label onclick='back(${id})' id='back${id}'><img src="icons/backspace.png" alt=""></label>
+      </li> `;
             lists.push([v, id])
             var container = document.getElementById('container');
             container.insertAdjacentHTML('beforeend', html);
@@ -88,8 +100,8 @@ document.addEventListener('keydown', function (e) {
 })
 function editCancle(editCan) {
     document.getElementById(`${editCan}`).remove();
-    document.getElementById(`edit${editCan}`).innerHTML = `edit${editCan}`
-    document.getElementById(`back${editCan}`).innerHTML = `back`
+    document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
+    document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
 }
 function edit(editId) {
     console.log(editId)
@@ -106,7 +118,14 @@ function edit(editId) {
         if (e.key == "Enter") {
             let val = document.getElementById(`input${editId}`).value;
             console.log(val)
-            if (v != val) {
+            let b=false;
+            for(let i=0;i<lists.length;i++){
+                if(lists[i][0]==v){
+                    b=true;
+                    break;
+                }
+            }
+            if (v != val && !b) {
                 document.getElementById(`input${editId}`).value = val;
                 for (let i = 0; i < lists.length; i++) {
                     if (lists[i][1] == editId) {
@@ -117,8 +136,11 @@ function edit(editId) {
                 console.log(lists)
                 document.getElementById(`input${editId}`).blur()
             }
-            document.getElementById(`edit${editId}`).innerHTML = `edit${editId}`
-            document.getElementById(`back${editId}`).innerHTML = `back`
+            else{
+                document.getElementById(`input${editId}`).value=v;
+            }
+            document.getElementById(`edit${editId}`).innerHTML = `<img src="icons/edit.png" alt="">`
+            document.getElementById(`back${editId}`).innerHTML = `<img src="icons/backspace.png" alt="">`
             document.getElementById(`${editId}`).remove();
         }
         
@@ -396,9 +418,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr[j][1]}">
             <input type="checkbox" name="" id="check${arr[j][1]}">
            &nbsp;
-            <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}">
-            <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'>edit${arr[j][1]}</label>
-            <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'>back</label>
+            <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
+            <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'><img src="icons/edit.png" alt=""></label>
+            <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -407,9 +429,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr[j][1]}">
             <input type="checkbox" name="" id="check${arr[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}">
-              <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'>edit${arr[j][1]}</label>
-              <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'>back</label>
+              <input type="text" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
+              <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'><img src="icons/edit.png" alt=""></label>
+              <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -482,9 +504,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
-            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-            <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
-            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+            <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
+            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -493,9 +515,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
-              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
+              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -558,9 +580,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
-            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
-           <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
+           <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -569,9 +591,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
-              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
+              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -634,9 +656,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
-            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
-           <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+            <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+           <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
+           <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
@@ -645,9 +667,9 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}">
-              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'>edit${arr1[j][1]}</label>
-              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'>back</label>
+              <input type="text" name="" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+              <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
+              <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
                 container.insertAdjacentHTML('beforeend', html1)
             }
