@@ -7,6 +7,7 @@ var allactivate = 0;
 var search = 0;
 //for no data found
 function noData(){
+    if(document.getElementById(`input`).style.display=='none'){
     let b=false;
     for(let i=0;i<lists.length;i++){
       if(document.getElementById(`li${lists[i][1]}`) && document.getElementById(`li${lists[i][1]}`).style.display != 'none'){
@@ -19,6 +20,7 @@ function noData(){
         document.getElementById(`empty`).style.display = 'block'
     }
     // console.log("no data found")
+}
 }
 function searchMode() {
     noData()
