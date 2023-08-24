@@ -20,7 +20,6 @@ function noData() {
         if (!b) {
             document.getElementById(`empty`).style.display = 'block'
         }
-        // console.log("no data found")
     }
     else {
         document.getElementById(`empty`).style.display = 'none'
@@ -30,6 +29,7 @@ function searchMode() {
     noData()
     search = 1;
     document.getElementById('input').setAttribute('placeholder', 'search')
+    document.getElementById('input').focus()
     document.getElementById('add1').style.background = '#0D6EFD';
     document.getElementById('add1').style.color = 'white';
     document.getElementById('search').style.background = 'white';
@@ -41,6 +41,7 @@ document.getElementById('add1').addEventListener('click', function () {
     document.getElementById('input').setAttribute('placeholder', 'add')
     document.getElementById('search').style.background = '#0D6EFD';
     document.getElementById('input-block').style.display = 'block';
+    document.getElementById('input').focus()
     document.getElementById('add1').style.background = 'white';
     document.getElementById('add1').style.color = 'black';
     noData()
@@ -72,7 +73,7 @@ document.addEventListener('keydown', function (e) {
                 var html = ` <li id="li${id}" >
           <input type="checkbox" name="" id="check${id}">
          &nbsp;
-          <input type="text" name="" class="inpAdd" id="input${id}" value="${v}" placeholder="enter"  style="width:80%; border:1px; overflow:visible">
+          <input type="text" name="" class="inpAdd" id="input${id}" value="${v}" placeholder="enter"  style="width:80%; border:1px; overflow:visible" readonly>
           <label onclick='edit(${id})' id='edit${id}'><img src="icons/edit.png" alt=""></label>
           <label onclick='back(${id})' id='back${id}'><img src="icons/backspace.png" alt=""></label>
       </li> `;
@@ -159,6 +160,15 @@ function editCancle(editCan) {
             }
         }
     }
+    /////readonly
+    for(let i=0;i<lists.length;i++){
+        if(document.getElementById(`li${lists[i][1]}`)){
+           
+                document.getElementById(`input${lists[i][1]}`).setAttribute('readonly',true);
+            
+        }
+    }
+    //////////
 }
 function assignVal(editId){
     for(let i=0;i<lists.length;i++){
@@ -170,6 +180,13 @@ function assignVal(editId){
     }
 }
 function edit(editId) {
+    for(let i=0;i<lists.length;i++){
+        if(document.getElementById(`li${lists[i][1]}`)){
+           
+                document.getElementById(`input${lists[i][1]}`).removeAttribute('readonly');
+            
+        }
+    }
     let editable = true;
     noData()
     console.log(editId)
@@ -233,6 +250,13 @@ function edit(editId) {
             noData()
             assignVal(editId)
             editId =''
+            for(let i=0;i<lists.length;i++){
+                if(document.getElementById(`li${lists[i][1]}`)){
+                   
+                        document.getElementById(`input${lists[i][1]}`).setAttribute('readonly',true);
+                    
+                }
+            }
             
         }
     //    else{
@@ -247,6 +271,7 @@ function edit(editId) {
 }
 
 function back(delId) {
+    if (confirm("Confirm to delete?") == true) {
     var b = true;
     document.getElementById(`li${delId}`).remove();
     for (let j = 0; j < lists.length; j++) {
@@ -268,6 +293,7 @@ function back(delId) {
         noData()
     }
     noData()
+}
 }
 function selectClick(){
     document.getElementById("noneAction").innerHTML="Active"
@@ -500,7 +526,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr[j][1]}">
             <input type="checkbox" name="" id="check${arr[j][1]}">
            &nbsp;
-            <input type="text" class="inpAdd" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
+            <input type="text" class="inpAdd" name="" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px" readonly>
             <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'><img src="icons/edit.png" alt=""></label>
             <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
@@ -511,7 +537,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr[j][1]}">
             <input type="checkbox" name="" id="check${arr[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" class="inpAdd" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px">
+              <input type="text" name="" class="inpAdd" id="input${arr[j][1]}" placeholder="enter" value="${arr[j][0]}"  style="width:80%; border:1px" readonly>
               <label onclick='edit(${arr[j][1]})' id='edit${arr[j][1]}'><img src="icons/edit.png" alt=""></label>
               <label onclick='back(${arr[j][1]})' id='back${arr[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
@@ -589,7 +615,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}">
            &nbsp;
-            <input type="text" name="" class="inpAdd" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+            <input type="text" name="" class="inpAdd" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px" readonly>
            <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
            <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
                </li>`;
@@ -600,7 +626,7 @@ function sorting() {
                 let html1 = ` <li id="li${arr1[j][1]}">
             <input type="checkbox" name="" id="check${arr1[j][1]}" checked>
               &nbsp;
-              <input type="text" name="" class="inpAdd" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px">
+              <input type="text" name="" class="inpAdd" id="input${arr1[j][1]}" placeholder="enter" value="${arr1[j][0]}"  style="width:80%; border:1px" readonly>
               <label onclick='edit(${arr1[j][1]})' id='edit${arr1[j][1]}'><img src="icons/edit.png" alt=""></label>
               <label onclick='back(${arr1[j][1]})' id='back${arr1[j][1]}'><img src="icons/backspace.png" alt=""></label>
           </li>`;
