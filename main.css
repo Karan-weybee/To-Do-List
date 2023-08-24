@@ -1,8 +1,13 @@
 /*# sourceMappingURL=main.css.map */
 /*# sourceMappingURL=main.css.map */
+body{
+    background-color: rgb(191, 243, 243);
+}
 .todo{
     width: 50%;
     margin-left: 25%;
+    background-color: aliceblue;
+    padding: 1em;
 }
 h1{
     margin-left: 37%;
