@@ -51,6 +51,8 @@ document.addEventListener('keydown', function (e) {
     if (search == 0 && activate == 0) {
         let b = false;
         console.log("added")
+
+
         let v = document.getElementById('input').value;
 
         for (let i = 0; i < lists.length; i++) {
@@ -80,6 +82,14 @@ document.addEventListener('keydown', function (e) {
                 document.getElementById('input').value = '';
                 noData()
             }
+        }
+        else{
+            console.log("not editable")
+                // for(let i=0;i<lists.length;i++){
+                //     if(document.getElementById(`li${lists[i][1]}`)){
+                //             document.getElementById(`input${lists[i][1]}`).value=lists[i][0]
+                //     }
+                // }  
         }
         // console.log(lists)
         noData()
@@ -181,6 +191,7 @@ function edit(editId) {
             let val = document.getElementById(`input${editId}`).value;
             console.log("active value", val, editId)
             let b = false;
+           
             for (let i = 0; i < lists.length; i++) {
                 if (lists[i][0] == val) {
                     b = true;
@@ -224,11 +235,15 @@ function edit(editId) {
             editId =''
             
         }
-
-        
+    //    else{
+        // for(let i=0;i<lists.length;i++){
+        //     if(document.getElementById(`li${lists[i][1]}`)){
+        //             document.getElementById(`input${lists[i][1]}`).value=lists[i][0]
+        //     }
+        // }
+    // }
     })
    
-    
 }
 
 function back(delId) {
@@ -351,7 +366,7 @@ function showActive() {
             document.getElementById(`check${i}`).onclick = function () {
                 if (!document.getElementById(`check${i}`).checked && activate == 1) {
                     document.getElementById(`li${i}`).style.display = 'none'
-
+                    noData()
                 }
             }
         }
@@ -392,7 +407,7 @@ function showunActive() {
             document.getElementById(`check${i}`).onclick = function () {
                 if (document.getElementById(`check${i}`).checked && unactivate == 1) {
                     document.getElementById(`li${i}`).style.display = 'none'
-
+                    noData()
                 }
             }
         }
