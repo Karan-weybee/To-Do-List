@@ -180,13 +180,10 @@ function assignVal(editId){
     }
 }
 function edit(editId) {
-    for(let i=0;i<lists.length;i++){
-        if(document.getElementById(`li${lists[i][1]}`)){
-           
-                document.getElementById(`input${lists[i][1]}`).removeAttribute('readonly');
+        
+                document.getElementById(`input${editId}`).removeAttribute('readonly');
             
-        }
-    }
+  
     let editable = true;
     noData()
     console.log(editId)
