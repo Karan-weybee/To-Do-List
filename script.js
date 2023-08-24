@@ -269,6 +269,9 @@ function back(delId) {
     }
     noData()
 }
+function selectClick(){
+    document.getElementById("noneAction").innerHTML="Active"
+}
 function select() {
     var x = document.getElementById("action").value;
     if (x == 'SelectAll') {
@@ -287,6 +290,7 @@ function select() {
         }
         noData()
         document.getElementById("action").value = '';
+        // document.getElementById("noneAction").innerHTML="selectall"
     }
     if (x == 'DeleteSelected') {
         var b = true;
