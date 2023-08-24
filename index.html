@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to do list</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <!-- <script type="module" src="script.js"></script> -->
+</head>
+<body>
+    <div class="main">
+    <br><br>
+    <div class="todo">
+        <h1>TODO LIST</h1>
+        <div id="input-block">
+            <br>
+            <input type="text" id="input" placeholder="add">
+        </div>
+        <br>
+        <ul id="container"></ul>
+        <div class="empty" id="empty"> No data found</div> 
+        
+
+        <br>
+        <div class="features">
+            <div class="feature-two">
+                <button class="add" id="add1"><span style="font-size: large; font-weight: bold; height: 2em; margin-top: -1em;">&#x2b;</span></button>
+                <div></div>
+                <button class="add" id="search" onclick="searchMode()">🔍</button>
+            </div>
+            <!-- <span class="vl"></span> &nbsp; -->
+            <div class="feature-other">
+                <select name="Actions" id="action" onchange="select()">
+                    <option id="noneAction" value="">Action</option>
+                    <option value="DeleteSelected">Delete Selected</option>
+                    <option value="SelectAll">Select All</option>
+                    <option value="UnselectAll">Unselect All</option>
+            </select>
+            <select name="Sort" id="sort" onchange="sorting()">
+                <option value="">Sort</option>
+                    <option value="AtoZ">A to Z</option>
+                    <option value="ZtoA">Z to A</option>
+                    <option value="Newest">Recently Newest</option>
+                    <option value="Oldest">Recently Oldest</option>
+                
+            </select>
+            <span class="btn-group" role="group" aria-label="Basic example" style="height: 2em;">
+                <button type="button" class="btn btn-primary" style="border-radius: 0%; margin-top: -.1em; border: 2px solid #0D6EFD;" id="showAll">All</button>
+                <button type="button" class="btn btn-primary" style="border-radius: 0%; margin-top: -.1em; border: 2px solid #0D6EFD;" id="showunActive">Active</button>
+                <button type="button" class="btn btn-primary" style="border-radius: 0%; margin-top: -.1em;border: 2px solid #0D6EFD;" id="showActive">Completed</button>
+            </span>
+            </div>
+            
+        </div>
+    </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
