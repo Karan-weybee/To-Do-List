@@ -1,10 +1,11 @@
 'use strict'
+var input = document.getElementById('input');
+let cancle = document.getElementById('cancle');
 var id = 0;
 var lists = [];
 var unactivate = 0;
 var activate = 0;
 var allactivate = 0;
-var search = 0;
 
 //for no data found
 function noData() {
@@ -25,165 +26,239 @@ function noData() {
         document.getElementById(`empty`).style.display = 'none'
     }
 }
-function searchMode() {
+cancle.addEventListener('click', function (e) {
+    e.preventDefault()
+    input.value = '';
+    input.blur()
+
+})
+
+function search() {
     noData()
-    search = 1;
-    document.getElementById('input').setAttribute('placeholder', 'search')
-    document.getElementById('input').focus()
-    document.getElementById('add1').style.background = '#0D6EFD';
-    document.getElementById('add1').style.color = 'white';
-    document.getElementById('search').style.background = 'white';
-
-}
-
-document.getElementById('add1').addEventListener('click', function () {
-    search = 0;
-    document.getElementById('input').setAttribute('placeholder', 'add')
-    document.getElementById('search').style.background = '#0D6EFD';
-    document.getElementById('input-block').style.display = 'block';
-    document.getElementById('input').focus()
-    document.getElementById('add1').style.background = 'white';
-    document.getElementById('add1').style.color = 'black';
-    noData()
-});
-
-document.addEventListener('keydown', function (e) {
-    noData()
-    if (search == 0 && activate == 0) {
-        let b = false;
-        console.log("added")
-
-
-        let v = document.getElementById('input').value;
-
-        for (let i = 0; i < lists.length; i++) {
-            if (lists[i][0] == v) {
-                b = true;
-                break;
+    console.log("searched")
+    let v = input.value;
+    if (v != '') {
+        for (let i = 1; i <= id; i++) {
+            if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate == 1 && unactivate == 0) {
+                document.getElementById(`li${i}`).style.display = 'block'
+            }
+            else if (document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate == 1 && activate == 0) {
+                document.getElementById(`li${i}`).style.display = 'block'
+            }
+            else if (document.getElementById(`li${i}`) && unactivate == 0 && activate == 0) {
+                document.getElementById(`li${i}`).style.display = 'block'
             }
         }
-
-        if (e.key == 'Enter' && v != '') {
-            if (b) {
-                alert(`value :- ${v} is already available`)
-                document.getElementById('input').value = '';
-            }
-            if (!b) {
-                id++;
-                var html = ` <li id="li${id}" >
-          <input type="checkbox" name="" id="check${id}">
-         &nbsp;
-          <input type="text" name="" class="inpAdd" id="input${id}" value="${v}" placeholder="enter"  style="width:80%; border:1px; overflow:visible" readonly>
-          <label onclick='edit(${id})' id='edit${id}'><img src="icons/edit.png" alt=""></label>
-          <label onclick='back(${id})' id='back${id}'><img src="icons/backspace.png" alt=""></label>
-      </li> `;
-                lists.push([v, id])
-                var container = document.getElementById('container');
-                container.insertAdjacentHTML('beforeend', html);
-                document.getElementById('input').value = '';
-                noData()
-            }
-        }
-        else{
-            console.log("not editable")
-                // for(let i=0;i<lists.length;i++){
-                //     if(document.getElementById(`li${lists[i][1]}`)){
-                //             document.getElementById(`input${lists[i][1]}`).value=lists[i][0]
-                //     }
-                // }  
-        }
-        // console.log(lists)
-        noData()
-    }
-    else {
-        noData()
-        console.log("searched")
-        let v = document.getElementById('input').value;
-        if (e.key == 'Enter' && v != '') {
-            for (let i = 1; i <= id; i++) {
-                if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate == 1 && unactivate == 0) {
-                    document.getElementById(`li${i}`).style.display = 'block'
-                }
-                else if (document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate == 1 && activate == 0) {
-                    document.getElementById(`li${i}`).style.display = 'block'
-                }
-                else if (document.getElementById(`li${i}`) && unactivate == 0 && activate == 0) {
-                    document.getElementById(`li${i}`).style.display = 'block'
-                }
-            }
-            for (let i = 1; i <= id; i++) {
-                if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
-                    for (let j = 0; j < lists.length; j++) {
-                        if (lists[j][1] == i) {
-                            let str = lists[j][0];
-                            console.log(typeof str, str)
-                            console.log(str.includes(v))
-                            if (!str.includes(v)) {
-                                document.getElementById(`li${i}`).style.display = 'none'
-                                noData()
-                            }
+        for (let i = 1; i <= id; i++) {
+            if (document.getElementById(`li${i}`) && document.getElementById(`li${i}`).style.display != 'none') {
+                for (let j = 0; j < lists.length; j++) {
+                    if (lists[j][1] == i) {
+                        let str = lists[j][0];
+                        console.log(typeof str, str)
+                        console.log(str.includes(v))
+                        if (!str.includes(v)) {
+                            document.getElementById(`li${i}`).style.display = 'none'
+                            noData()
                         }
                     }
                 }
             }
-            noData()
-        }
-        if (v == '' && e.key == 'Enter') {
-            for (let i = 1; i <= id; i++) {
-                if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate == 1 && unactivate == 0) {
-                    document.getElementById(`li${i}`).style.display = 'block'
-                }
-                else if (document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate == 1 && activate == 0) {
-                    document.getElementById(`li${i}`).style.display = 'block'
-                }
-                else if (document.getElementById(`li${i}`) && unactivate == 0 && activate == 0) {
-                    document.getElementById(`li${i}`).style.display = 'block'
-                }
-            }
-            noData()
         }
         noData()
     }
+    noData()
+    input.focus()
+
+}
+function allVal() {
+    let v = input.value;
+    console.log("all")
+    if (v == '') {
+        for (let i = 1; i <= id; i++) {
+            if (document.getElementById(`li${i}`) && document.getElementById(`check${i}`).checked && activate == 1 && unactivate == 0) {
+                document.getElementById(`li${i}`).style.display = 'block'
+            }
+            else if (document.getElementById(`li${i}`) && !document.getElementById(`check${i}`).checked && unactivate == 1 && activate == 0) {
+                document.getElementById(`li${i}`).style.display = 'block'
+            }
+            else if (document.getElementById(`li${i}`) && unactivate == 0 && activate == 0) {
+                document.getElementById(`li${i}`).style.display = 'block'
+            }
+        }
+        noData()
+    }
+    input.focus()
+}
+
+function addItem(b, v) {
+
+    if (b) {
+        alert(`value :- ${v} is already available`)
+        input.value = '';
+    }
+    if (!b) {
+        id++;
+        var html = ` <li id="li${id}" >
+  <input type="checkbox" name="" id="check${id}">
+ &nbsp;
+  <input type="text" name="" class="inpAdd" id="input${id}" value="${v}" placeholder="enter"  style="width:80%; border:1px; overflow:visible" readonly>
+  <label onclick='edit(${id})' id='edit${id}'><img src="icons/edit.png" alt=""></label>
+  <label onclick='back(${id})' id='back${id}'><img src="icons/backspace.png" alt=""></label>
+</li> `;
+        lists.push([v, id])
+        var container = document.getElementById('container');
+        container.insertAdjacentHTML('beforeend', html);
+        input.value = '';
+        noData()
+    }
+}
+document.getElementById('add1').addEventListener('click', function () {
+    if (activate == 1) {
+        allactive();
+    }
+    let b = false;
+    console.log("added")
+
+    let v = input.value;
+
+    for (let i = 0; i < lists.length; i++) {
+        if (lists[i][0] == v) {
+            b = true;
+            break;
+        }
+    }
+
+    if (v != '') {
+        addItem(b, v);
+    }
+    noData()
+
+});
+
+document.addEventListener('keydown', function (e) {
+    noData()
+    let b = false;
+    console.log("added")
+
+    let v = input.value;
+
+    for (let i = 0; i < lists.length; i++) {
+        if (lists[i][0] == v) {
+            b = true;
+            break;
+        }
+    }
+
+    if (e.key == 'Enter' && v != '') {
+        if (activate == 1) {
+            allactive();
+        }
+        addItem(b, v);
+    }
+    noData()
+
 
 })
+
+
 function editCancle(editCan) {
     noData()
 
     document.getElementById(`${editCan}`).remove();
+    document.getElementById(`accept${editCan}`).remove();
     document.getElementById(`edit${editCan}`).innerHTML = `<img src="icons/edit.png" alt="">`
     document.getElementById(`back${editCan}`).innerHTML = `<img src="icons/backspace.png" alt="">`
-  
-    for(let i=0;i<lists.length;i++){
-        if(document.getElementById(`li${editCan}`)){
-            if(lists[i][1]==editCan){
-                document.getElementById(`input${editCan}`).value=lists[i][0]
+
+    for (let i = 0; i < lists.length; i++) {
+        if (document.getElementById(`li${editCan}`)) {
+            if (lists[i][1] == editCan) {
+                document.getElementById(`input${editCan}`).value = lists[i][0]
             }
         }
     }
     /////readonly
-    for(let i=0;i<lists.length;i++){
-        if(document.getElementById(`li${lists[i][1]}`)){
-           
-                document.getElementById(`input${lists[i][1]}`).setAttribute('readonly',true);
-            
+    for (let i = 0; i < lists.length; i++) {
+        if (document.getElementById(`li${lists[i][1]}`)) {
+
+            document.getElementById(`input${lists[i][1]}`).setAttribute('readonly', true);
+
         }
     }
     //////////
 }
-function assignVal(editId){
-    for(let i=0;i<lists.length;i++){
-        if(document.getElementById(`li${editId}`)){
-            if(lists[i][1]==editId){
-                document.getElementById(`input${editId}`).value=lists[i][0]
+function assignVal(editId) {
+    for (let i = 0; i < lists.length; i++) {
+        if (document.getElementById(`li${editId}`)) {
+            if (lists[i][1] == editId) {
+                document.getElementById(`input${editId}`).value = lists[i][0]
             }
         }
     }
 }
+function removeIcon(editId) {
+    if (document.getElementById(`${editId}`)) {
+        document.getElementById(`${editId}`).remove();
+        document.getElementById(`accept${editId}`).remove();
+    }
+    document.getElementById(`edit${editId}`).innerHTML = `<img src="icons/edit.png" alt="">`
+    document.getElementById(`back${editId}`).innerHTML = `<img src="icons/backspace.png" alt="">`
+
+}
+function editAccept(editId) {
+    removeIcon(editId);
+    let v = input.value;
+
+    let val = document.getElementById(`input${editId}`).value;
+    console.log("active value", val, editId)
+    let b = false;
+
+    for (let i = 0; i < lists.length; i++) {
+        if (lists[i][0] == val) {
+            b = true;
+            // alert(`value :- ${val} is already available`)
+            break;
+        }
+    }
+    if (v != val && !b) {
+        document.getElementById(`input${editId}`).value = val;
+        console.log("assign", val)
+        let index = -1;
+        for (let i = 0; i < lists.length; i++) {
+            if (lists[i][1] == editId) {
+                index = i;
+            }
+        }
+        if (index > -1) {
+            lists.splice(index, 1);
+            lists.push([val, editId])
+            // document.getElementById(`input${}`).value=val;
+            index = -1
+        }
+
+        console.log(lists)
+        document.getElementById(`input${editId}`).blur()
+    }
+    else {
+        document.getElementById(`input${editId}`).value = v;
+        document.getElementById(`input${editId}`).blur()
+    }
+
+    noData()
+    assignVal(editId)
+    editId = ''
+
+    for (let i = 0; i < lists.length; i++) {
+        if (document.getElementById(`li${lists[i][1]}`)) {
+            document.getElementById(`input${lists[i][1]}`).setAttribute('readonly', true);
+        }
+
+    }
+}
 function edit(editId) {
-        
-                document.getElementById(`input${editId}`).removeAttribute('readonly');
-            
-  
+
+    document.getElementById(`input${editId}`).removeAttribute('readonly');
+
+
     let editable = true;
     noData()
     console.log(editId)
@@ -193,7 +268,7 @@ function edit(editId) {
     document.getElementById(`back${editId}`).innerHTML = ``
     document.getElementById(`input${editId}`).focus()
 
-    var html = `<button class="add" id="${editId}" onclick="editCancle(${editId})">❌</button>`;
+    var html = `<button class="modify" id="accept${editId}" onclick="editAccept(${editId})">✅</button><button class="modify" id="${editId}" onclick="editCancle(${editId})">❌</button>`;
     var lis = document.getElementById(`li${editId}`)
     lis.insertAdjacentHTML('beforeend', html);
 
@@ -201,99 +276,39 @@ function edit(editId) {
         noData()
         if (e.key == "Enter" && editId != '' && editable) {
             console.log("edit", editId)
-
-            let val = document.getElementById(`input${editId}`).value;
-            console.log("active value", val, editId)
-            let b = false;
-           
-            for (let i = 0; i < lists.length; i++) {
-                if (lists[i][0] == val) {
-                    b = true;
-                    // alert(`value :- ${val} is already available`)
-                    break;
-                }
-            }
-            if (v != val && !b) {
-                document.getElementById(`input${editId}`).value = val;
-                console.log("assign",val)
-                let index = -1;
-                for (let i = 0; i < lists.length; i++) {
-                    if (lists[i][1] == editId) {
-                        index = i;
-                    }
-                }
-                if (index > -1) {
-                    lists.splice(index, 1);
-                    lists.push([val, editId])
-                    // document.getElementById(`input${}`).value=val;
-                    index = -1
-                }
-
-                console.log(lists)
-                document.getElementById(`input${editId}`).blur()
-            }
-            else {
-                document.getElementById(`input${editId}`).value = v;
-                document.getElementById(`input${editId}`).blur()
-            }
-            document.getElementById(`edit${editId}`).innerHTML = `<img src="icons/edit.png" alt="">`
-            document.getElementById(`back${editId}`).innerHTML = `<img src="icons/backspace.png" alt="">`
-            if(document.getElementById(`${editId}`)){
-            document.getElementById(`${editId}`).remove();
-            }
-            
-           
-            editable = false
-            noData()
-            assignVal(editId)
-            editId =''
-            for(let i=0;i<lists.length;i++){
-                if(document.getElementById(`li${lists[i][1]}`)){
-                   
-                        document.getElementById(`input${lists[i][1]}`).setAttribute('readonly',true);
-                    
-                }
-            }
-            
+            editAccept(editId, editable);
         }
-    //    else{
-        // for(let i=0;i<lists.length;i++){
-        //     if(document.getElementById(`li${lists[i][1]}`)){
-        //             document.getElementById(`input${lists[i][1]}`).value=lists[i][0]
-        //     }
-        // }
-    // }
     })
-   
+
 }
 
 function back(delId) {
     if (confirm("Confirm to delete?") == true) {
-    var b = true;
-    document.getElementById(`li${delId}`).remove();
-    for (let j = 0; j < lists.length; j++) {
-        if (lists[j][1] == delId) {
-            lists.splice(j, 1)
+        var b = true;
+        document.getElementById(`li${delId}`).remove();
+        for (let j = 0; j < lists.length; j++) {
+            if (lists[j][1] == delId) {
+                lists.splice(j, 1)
+            }
         }
-    }
-    for (let i = 1; i <= id; i++) {
-        if (!document.getElementById(`li${i}`)) {
-            b = false;
+        for (let i = 1; i <= id; i++) {
+            if (!document.getElementById(`li${i}`)) {
+                b = false;
+            }
+            else {
+                b = true;
+                break;
+            }
         }
-        else {
-            b = true;
-            break;
+        if (!b) {
+            id = 0;
+            noData()
         }
-    }
-    if (!b) {
-        id = 0;
         noData()
     }
-    noData()
 }
-}
-function selectClick(){
-    document.getElementById("noneAction").innerHTML="Active"
+function selectClick() {
+    document.getElementById("noneAction").innerHTML = "Active"
 }
 function select() {
     var x = document.getElementById("action").value;
@@ -367,9 +382,7 @@ function select() {
 
 document.getElementById('showActive').addEventListener('click', showActive)
 function showActive() {
-    document.getElementById('input').setAttribute('placeholder', 'search')
-    document.getElementById('input').value = ''
-
+    input.value = ''
     allactivate = 0;
     activate = 1;
     unactivate = 0;
@@ -403,13 +416,7 @@ function showActive() {
 
 document.getElementById('showunActive').addEventListener('click', showunActive)
 function showunActive() {
-    if (search == 1) {
-        document.getElementById('input').setAttribute('placeholder', 'search');
-    }
-    else {
-        document.getElementById('input').setAttribute('placeholder', 'add');
-    }
-    document.getElementById('input').value = ''
+    input.value = ''
     allactivate = 0;
     activate = 0;
     unactivate = 1;
@@ -443,14 +450,9 @@ function showunActive() {
     noData()
 }
 
-document.getElementById('showAll').onclick = function () {
-    document.getElementById('input').value = ''
-    if (search == 1) {
-        document.getElementById('input').setAttribute('placeholder', 'search');
-    }
-    else {
-        document.getElementById('input').setAttribute('placeholder', 'add');
-    }
+document.getElementById('showAll').addEventListener('click', allactive)
+function allactive() {
+    input.value = ''
     allactivate = 1;
     activate = 0;
     unactivate = 0;

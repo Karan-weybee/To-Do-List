@@ -15,7 +15,9 @@
         <h1>TODO LIST</h1>
         <div id="input-block">
             <br>
-            <input type="text" id="input" placeholder="add">
+            <input type="text" id="input" placeholder="add" onchange="allVal()">
+            <button id="cancle">❌</button>
+            <span id="search-span"><button class="" id="search" onclick="search()">🔍</button></span>
         </div>
         <br>
         <ul id="container"></ul>
@@ -25,9 +27,9 @@
         <br>
         <div class="features">
             <div class="feature-two">
-                <button class="add" id="add1"><span style="font-size: large; font-weight: bold; height: 2em; margin-top: -1em;">&#x2b;</span></button>
-                <div></div>
-                <button class="add" id="search" onclick="searchMode()">🔍</button>
+                <button class="add" id="add1"><span style="font-size:medium; font-weight: bold; height: 2em; margin-top: -1em;">Add</span></button>
+                <!-- <div></div> -->
+                <!-- <button class="add" id="search" onclick="search()">🔍</button> -->
             </div>
             <!-- <span class="vl"></span> &nbsp; -->
             <div class="feature-other">

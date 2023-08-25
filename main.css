@@ -28,26 +28,31 @@ h1{
   }
   .features{
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 4fr;
   }
-  .feature-other{
-    border-left: 2px solid #0D6EFD;
-  }
+  
 
   .feature-two{
     display: flex;
     justify-content: space-evenly;
   }
  .add{
-    width: 40px;
+    width: 50px;
     height: 30px;
     color:white;
     background-color: #0D6EFD;
     border: 2px solid #0D6EFD;
  }
-#empty{
+ #search{
+    width: 50px;
+    height: 2.5em;
+    color:white;
+    border: 2px solid #0D6EFD;
+ }
+ 
+/* #empty{
     display: none;
-}
+} */
 #action{
     height: 30px;
     width: 27%;
@@ -61,12 +66,24 @@ h1{
     justify-content: space-evenly;
 }
 #input{
-    width: 100%;
+    width: 90%;
     height: 2.5em;
    
 }
 #input-block{
-    display: none;
+    position: relative;
+}
+#cancle{
+    position: absolute;
+    /* bottom: .3em; */
+    /* padding-bottom: .9px; */
+    top: 1.4em;
+    right: 10.1%;
+    height: 2.1em;
+    border: 1px;
+    font-size: large;
+    /* border-top: 1px solid black; */
+    background-color: white;
 }
 #all:hover{
     background: white;
@@ -86,4 +103,10 @@ img{
 .inpAdd{
     text-overflow: ellipsis;
   /* text-overflow */
+}
+.modify{
+    border: 1px;
+    margin: .1%;
+    font-size: large;
+    
 }
