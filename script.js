@@ -67,6 +67,8 @@ function search() {
         noData()
     }
     noData()
+    const end = input.value.length;
+    input.setSelectionRange(end, end);
     input.focus()
 
 }
@@ -87,6 +89,8 @@ function allVal() {
         }
         noData()
     }
+    const end = input.value.length;
+    input.setSelectionRange(end, end);
     input.focus()
 }
 
@@ -266,6 +270,9 @@ function edit(editId) {
     console.log(v)
     document.getElementById(`edit${editId}`).innerHTML = ``
     document.getElementById(`back${editId}`).innerHTML = ``
+
+    const end = document.getElementById(`input${editId}`).value.length;
+    document.getElementById(`input${editId}`).setSelectionRange(end, end);
     document.getElementById(`input${editId}`).focus()
 
     var html = `<button class="modify" id="accept${editId}" onclick="editAccept(${editId})">✅</button><button class="modify" id="${editId}" onclick="editCancle(${editId})">❌</button>`;
