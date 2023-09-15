@@ -6,6 +6,7 @@ var lists = [];
 var unactivate = 0;
 var activate = 0;
 var allactivate = 0;
+var editItemsActive=0;
 
 //for no data found
 function noData() {
@@ -262,6 +263,11 @@ function edit(editId) {
 
     document.getElementById(`input${editId}`).removeAttribute('readonly');
 
+    for(let i=0;i<=id;i++){
+        if(document.getElementById(`li${i}`)){
+        removeIcon(i)
+        }
+    }
 
     let editable = true;
     noData()
@@ -274,11 +280,11 @@ function edit(editId) {
     const end = document.getElementById(`input${editId}`).value.length;
     document.getElementById(`input${editId}`).setSelectionRange(end, end);
     document.getElementById(`input${editId}`).focus()
-
+  
     var html = `<button class="modify" id="accept${editId}" onclick="editAccept(${editId})">✅</button><button class="modify" id="${editId}" onclick="editCancle(${editId})">❌</button>`;
     var lis = document.getElementById(`li${editId}`)
     lis.insertAdjacentHTML('beforeend', html);
-
+   
     document.addEventListener('keydown', function (e) {
         noData()
         if (e.key == "Enter" && editId != '' && editable) {
